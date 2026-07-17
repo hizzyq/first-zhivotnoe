@@ -103,12 +103,13 @@ services:
     networks:
       - pet-network
     ports:
-      - "5001:5000"
+      - "5001:8080"
     depends_on:
       kafka:
         condition: service_healthy
       postgres:
         condition: service_started
     environment:
+      - ASPNETCORE_ENVIRONMENT=Development
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
       - DATABASE_URL=postgresql://user:supersecretpassword@postgres:5432/pet_database

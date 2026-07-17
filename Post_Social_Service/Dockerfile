@@ -15,7 +15,8 @@ RUN dotnet publish vas_projects/vas_projects.csproj -c Release -o out
 
 # Этап 2: Запуск с использованием .NET Runtime на Alpine
 FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine
+RUN apk add --no-cache krb5-libs
 WORKDIR /app
 COPY --from=build-env /app/out .
-EXPOSE 5000
+EXPOSE 8080
 ENTRYPOINT ["dotnet", "vas_projects.dll"]
