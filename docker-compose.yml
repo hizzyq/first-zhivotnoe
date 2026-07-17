@@ -1,8 +1,14 @@
-services:
+networks:
+  pet-network:
+    driver: bridge
 
+services:
+  # === ИНФРАСТРУКТУРА ===
   postgres:
-    image: postgres:16-alpine # Используем свежую стабильную версию на легковесном образе
+    image: postgres:16-alpine
     container_name: pet_postgres
+    networks:
+      - pet-network
     ports:
       - "5432:5432"
     environment:
@@ -11,9 +17,12 @@ services:
       POSTGRES_DB: pet_database
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
+
   minio:
     image: minio/minio:latest
     container_name: pet_minio
+    networks:
+      - pet-network
     command: server /data --console-address ":9001"
     ports:
       - "9000:9000"
@@ -27,47 +36,61 @@ services:
   kafka:
     image: confluentinc/cp-kafka:latest
     container_name: pet_kafka
+    networks:
+      - pet-network
     ports:
       - "9092:9092"
     environment:
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: 'broker,controller'
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@localhost:9093'
       KAFKA_LISTENERS: 'INTERNAL://:29092,EXTERNAL://:9092,CONTROLLER://:9093'
-      KAFKA_ADVERTISED_LISTENERS: 'INTERNAL://kafka:29092,EXTERNAL://localhost:9092'
+      KAFKA_ADVERTISED_LISTENERS: 'INTERNAL://pet_kafka:29092,EXTERNAL://localhost:9092'
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT'
       KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
       KAFKA_INTER_BROKER_LISTENER_NAME: 'INTERNAL'
-      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka:9093'
-      KAFKA_CLUSTER_ID: 'MkU3OEVGMTY3RjU0NDQzQk'
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_CLUSTER_ID: '4L62Ckick2wZ0V48Xzd56A'
     volumes:
-      - ./kafka_queue:/var/lib/kafka/data
-      
-  schema-registry:
-    image: confluentinc/cp-schema-registry:latest
-    container_name: pet_schema_registry
-    ports:
-      - "8081:8081"
-    depends_on:
-      - kafka
-    environment:
-      SCHEMA_REGISTRY_HOST_NAME: schema-registry
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'kafka:29092' 
-      SCHEMA_REGISTRY_LISTENERS: 'http://0.0.0.0:8081'
-      SCHEMA_REGISTRY_KAFKASTORE_TOPIC_REPLICATION_FACTOR: 1
-  
-  # Опционально: UI-панель (например, АКHQ или Kafka-UI), чтобы смотреть на контракты глазами
+      - ./kafka_data:/var/lib/kafka/data
+
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     container_name: pet_kafka_ui
+    networks:
+      - pet-network
     ports:
       - "8080:8080"
     depends_on:
       - kafka
-      - schema-registry
     environment:
       KAFKA_CLUSTERS_0_NAME: local
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
-      KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schema-registry:8081
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: pet_kafka:29092
+
+  # === МИКРОСЕРВИСЫ ===
+  go-app:
+    build: ./Uploader_Service  # Путь к папке с Go-сервисом и его Dockerfile
+    container_name: pet_go_app
+    networks:
+      - pet-network
+    ports:
+      - "8081:8080"      # Пробрасываем порт наружу, если нужно тестировать
+    depends_on:
+      - kafka
+      - postgres
+    environment:
+      - KAFKA_BOOTSTRAP_SERVERS=pet_kafka:29092
+      - DATABASE_URL=postgresql://user:supersecretpassword@postgres:5432/pet_database
+
+  csharp-app:
+    build: ./Post_Social_Service  # Путь к папке с C#-сервисом и его Dockerfile
+    container_name: pet_csharp_app
+    networks:
+      - pet-network
+    ports:
+      - "5001:5000"
+    depends_on:
+      - kafka
+      - postgres
+    environment:
+      - KAFKA_BOOTSTRAP_SERVERS=pet_kafka:29092
+      - CONNECTION_STRING=Host=postgres;Port=5432;Database=pet_database;Username=user;Password=supersecretpassword
