@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: minio-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce # Диск подключается к одному Поду в режиме чтения/записи
+  resources:
+    requests:
+      storage: 10Gi  # Резервируем 1 Гигабайт пространства

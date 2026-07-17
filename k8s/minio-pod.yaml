@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: minio-pod
+  labels:
+    app: minio-storage
+spec:
+  volumes:
+    - name: minio-storage-volume
+      persistentVolumeClaim:
+        claimName: minio-pvc
+  containers:
+    - name: minio
+      image: minio/minio:latest
+      command: ["minio"]
+      args: ["server", "/data", "--console-address", ":9001"] 
+      ports:
+        - containerPort: 9000
+          name: minio-api
+        - containerPort: 9001
+          name: minio-console
+      env:
+        - name: MINIO_ROOT_USER
+          value: "admin"
+        - name: MINIO_ROOT_PASSWORD
+          value: "supersecretpassword"
+      volumeMounts:
+        - name: minio-storage-volume
+          mountPath: /data

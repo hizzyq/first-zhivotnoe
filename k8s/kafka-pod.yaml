@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kafka-pod
+  labels:
+    app: kafka-broker # Метка, по которой Сервис свяжется с этим Подом 🏷️
+spec:
+  volumes:
+    - name: kafka-data
+      persistentVolumeClaim:
+        claimName: kafka-pvc # Подключаем нашу заявку на диск 💾
+  containers:
+    - name: kafka
+      image: apache/kafka:latest
+      ports:
+        - containerPort: 9002
+          name: kafka
+      env:
+        - name: CLUSTER_ID
+          value: "4L62Ckick2wZ0V48Xzd56A" # 🔑 Наш идентификатор для KRaft
+        - name: KAFKA_NODE_ID
+          value: "1"
+        - name: KAFKA_PROCESS_ROLES
+          value: "broker,controller"
+        - name: KAFKA_CONTROLLER_QUORUM_VOTERS
+          value: "1@localhost:9093"
+        - name: KAFKA_LISTENERS
+          value: "PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093"
+        - name: KAFKA_INTER_BROKER_LISTENER_NAME
+          value: "PLAINTEXT"
+        - name: KAFKA_CONTROLLER_LISTENER_NAMES
+          value: "CONTROLLER"
+        - name: KAFKA_LOG_DIRS
+          value: "/var/lib/kafka/data"
+        - name: KAFKA_ADVERTISED_LISTENERS
+          value: "PLAINTEXT://kafka-service:9092" # Наш внутренний адрес 🔌
