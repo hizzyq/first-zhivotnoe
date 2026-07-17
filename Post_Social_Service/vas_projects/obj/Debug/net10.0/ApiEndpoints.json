@@ -1,0 +1,18 @@
+[
+  {
+    "ContainingType": "vas_projects.Controllers.PostsController",
+    "Method": "GetFeed",
+    "RelativePath": "api/Posts/feed",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

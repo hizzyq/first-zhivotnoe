@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Core/Core.csproj" />
+  <Project Path="Date/Date.csproj" />
+  <Project Path="vas_projects/vas_projects.csproj" />
+</Solution>
