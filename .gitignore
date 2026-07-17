@@ -1,3 +1,48 @@
 kafka_queue/
 minio_data/
 postgres_data/
+## Target directories
+Bin/
+obj/
+publish/
+
+## Visual Studio cache and settings
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## JetBrains Rider
+.idea/
+*.sln.DotSettings.user
+
+## Visual Studio Code
+.vscode/
+
+## User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+## Custom LightSwitch properties
+**/*.ls3proj.user
+**/*.ls3proj.LightSwitch.user
+
+## Node.js / Frontend (если используете Angular/React/Blazor WASM с npm)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+## User Secrets & Local Settings
+# Секреты хранятся вне папки проекта, но если вы случайно сохраните их локально:
+secrets.json
+.env
+*.env.local
+
+## OS generated files
+.DS_Store
+Thumbs.db

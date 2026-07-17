@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Study\\Project_VAS\\vas_projects\\Date\\Date.csproj": {}
+    "D:\\Study\\Project_VAS\\first-zhivotnoe\\Post_Social_Service\\Date\\Date.csproj": {}
   },
   "projects": {
-    "D:\\Study\\Project_VAS\\vas_projects\\Core\\Core.csproj": {
+    "D:\\Study\\Project_VAS\\first-zhivotnoe\\Post_Social_Service\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Study\\Project_VAS\\vas_projects\\Core\\Core.csproj",
+        "projectUniqueName": "D:\\Study\\Project_VAS\\first-zhivotnoe\\Post_Social_Service\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "D:\\Study\\Project_VAS\\vas_projects\\Core\\Core.csproj",
+        "projectPath": "D:\\Study\\Project_VAS\\first-zhivotnoe\\Post_Social_Service\\Core\\Core.csproj",
         "packagesPath": "C:\\Users\\nbarv\\.nuget\\packages\\",
-        "outputPath": "D:\\Study\\Project_VAS\\vas_projects\\Core\\obj\\",
+        "outputPath": "D:\\Study\\Project_VAS\\first-zhivotnoe\\Post_Social_Service\\Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -371,14 +371,14 @@
         }
       }
     },
-    "D:\\Study\\Project_VAS\\vas_projects\\Date\\Date.csproj": {
+    "D:\\Study\\Project_VAS\\first-zhivotnoe\\Post_Social_Service\\Date\\Date.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Study\\Project_VAS\\vas_projects\\Date\\Date.csproj",
+        "projectUniqueName": "D:\\Study\\Project_VAS\\first-zhivotnoe\\Post_Social_Service\\Date\\Date.csproj",
         "projectName": "Date",
-        "projectPath": "D:\\Study\\Project_VAS\\vas_projects\\Date\\Date.csproj",
+        "projectPath": "D:\\Study\\Project_VAS\\first-zhivotnoe\\Post_Social_Service\\Date\\Date.csproj",
         "packagesPath": "C:\\Users\\nbarv\\.nuget\\packages\\",
-        "outputPath": "D:\\Study\\Project_VAS\\vas_projects\\Date\\obj\\",
+        "outputPath": "D:\\Study\\Project_VAS\\first-zhivotnoe\\Post_Social_Service\\Date\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -400,8 +400,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\Study\\Project_VAS\\vas_projects\\Core\\Core.csproj": {
-                "projectPath": "D:\\Study\\Project_VAS\\vas_projects\\Core\\Core.csproj"
+              "D:\\Study\\Project_VAS\\first-zhivotnoe\\Post_Social_Service\\Core\\Core.csproj": {
+                "projectPath": "D:\\Study\\Project_VAS\\first-zhivotnoe\\Post_Social_Service\\Core\\Core.csproj"
               }
             }
           }

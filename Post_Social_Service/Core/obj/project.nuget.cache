@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "E34dx6g0GsM=",
+  "dgSpecHash": "m/35Fwv205Y=",
   "success": true,
-  "projectFilePath": "D:\\Study\\Project_VAS\\vas_projects\\Core\\Core.csproj",
+  "projectFilePath": "D:\\Study\\Project_VAS\\first-zhivotnoe\\Post_Social_Service\\Core\\Core.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nbarv\\.nuget\\packages\\confluent.kafka\\2.15.0\\confluent.kafka.2.15.0.nupkg.sha512",
     "C:\\Users\\nbarv\\.nuget\\packages\\dapper\\2.1.79\\dapper.2.1.79.nupkg.sha512",

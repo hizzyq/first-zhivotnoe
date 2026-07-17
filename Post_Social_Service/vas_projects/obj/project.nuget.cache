@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "uFFWxrRS1x0=",
+  "dgSpecHash": "iE3YAk1w1Zc=",
   "success": true,
-  "projectFilePath": "D:\\Study\\Project_VAS\\vas_projects\\vas_projects\\vas_projects.csproj",
+  "projectFilePath": "D:\\Study\\Project_VAS\\first-zhivotnoe\\Post_Social_Service\\vas_projects\\vas_projects.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nbarv\\.nuget\\packages\\confluent.kafka\\2.15.0\\confluent.kafka.2.15.0.nupkg.sha512",
     "C:\\Users\\nbarv\\.nuget\\packages\\dapper\\2.1.79\\dapper.2.1.79.nupkg.sha512",
@@ -52,9 +52,9 @@
       "code": "NU1510",
       "level": "Warning",
       "message": "PackageReference Microsoft.Extensions.Hosting не будет урезано. Этот пакет доступен автоматически, и на него не нужно явно ссылаться. Удалите элемент PackageReference.",
-      "projectPath": "D:\\Study\\Project_VAS\\vas_projects\\vas_projects\\vas_projects.csproj",
+      "projectPath": "D:\\Study\\Project_VAS\\first-zhivotnoe\\Post_Social_Service\\vas_projects\\vas_projects.csproj",
       "warningLevel": 1,
-      "filePath": "D:\\Study\\Project_VAS\\vas_projects\\vas_projects\\vas_projects.csproj",
+      "filePath": "D:\\Study\\Project_VAS\\first-zhivotnoe\\Post_Social_Service\\vas_projects\\vas_projects.csproj",
       "libraryId": "Microsoft.Extensions.Hosting",
       "targetGraphs": [
         "net10.0"
