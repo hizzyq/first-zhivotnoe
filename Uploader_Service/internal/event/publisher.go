@@ -37,7 +37,7 @@ func (p *Publisher) PublishMediaUploaded(ctx context.Context, event domain.Media
 	}
 
 	message := kafka.Message{
-		Key:   []byte(event.FileName),
+		Key:   []byte(event.ImagePath),
 		Value: payload,
 	}
 

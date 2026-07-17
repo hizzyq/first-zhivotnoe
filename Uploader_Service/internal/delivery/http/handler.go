@@ -69,7 +69,7 @@ func (h *Handler) UploadMedia(c *gin.Context) {
 		UserID:      userID,
 		Title:       title,
 		Description: description,
-		FileName:    file.Filename,
+		ImagePath:   file.Filename,
 	})
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to publish event"})
