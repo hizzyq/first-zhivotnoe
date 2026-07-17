@@ -21,7 +21,7 @@ namespace vas_projects.Infrastructure
         {
             _logger = logger;
             _serviceProvider = provider;
-            _topicName = config["KafkaSettings:Topic"] ?? string.Empty;
+            _topicName = config["KafkaSettings:Topic"] ?? "__consumer_offsets";
             _configuration = config;
         }
 
@@ -96,6 +96,10 @@ namespace vas_projects.Infrastructure
                     catch (ConsumeException e)
                     {
                         _logger.LogError($"Error during got a message: {e.Message}");
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError("Error with Kafka service");
                     }
                 }
             }
