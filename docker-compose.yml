@@ -32,10 +32,16 @@ services:
       MINIO_ROOT_PASSWORD: supersecretpassword
     volumes:
       - ./minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 3s
+      timeout: 3s
+      retries: 5
 
   kafka:
     image: confluentinc/cp-kafka:latest
     container_name: pet_kafka
+    user: "${UID}:${GID}" # <-- МАГИЯ ЗДЕСЬ: запуск от твоего имени
     networks:
       - pet-network
     ports:
@@ -50,8 +56,14 @@ services:
       KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
       KAFKA_INTER_BROKER_LISTENER_NAME: 'INTERNAL'
       KAFKA_CLUSTER_ID: '4L62Ckick2wZ0V48Xzd56A'
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     volumes:
       - ./kafka_data:/var/lib/kafka/data
+    healthcheck:
+      test: ["CMD", "kafka-topics", "--bootstrap-server", "localhost:9092", "--list"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
@@ -64,7 +76,7 @@ services:
       - kafka
     environment:
       KAFKA_CLUSTERS_0_NAME: local
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: pet_kafka:29092
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
 
   # === МИКРОСЕРВИСЫ ===
   go-app:
@@ -75,11 +87,15 @@ services:
     ports:
       - "8081:8080"      # Пробрасываем порт наружу, если нужно тестировать
     depends_on:
-      - kafka
-      - postgres
+      kafka:
+        condition: service_started
+      postgres:
+        condition: service_started
+      minio:
+        condition: service_healthy
     environment:
-      - KAFKA_BOOTSTRAP_SERVERS=pet_kafka:29092
-      - DATABASE_URL=postgresql://user:supersecretpassword@postgres:5432/pet_database
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+      - CONNECTION_STRING=Host=postgres;Port=5432;Database=pet_database;Username=user;Password=supersecretpassword
 
   csharp-app:
     build: ./Post_Social_Service  # Путь к папке с C#-сервисом и его Dockerfile
@@ -89,8 +105,10 @@ services:
     ports:
       - "5001:5000"
     depends_on:
-      - kafka
-      - postgres
+      kafka:
+        condition: service_healthy
+      postgres:
+        condition: service_started
     environment:
-      - KAFKA_BOOTSTRAP_SERVERS=pet_kafka:29092
-      - CONNECTION_STRING=Host=postgres;Port=5432;Database=pet_database;Username=user;Password=supersecretpassword
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+      - DATABASE_URL=postgresql://user:supersecretpassword@postgres:5432/pet_database
