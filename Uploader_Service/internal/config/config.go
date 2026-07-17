@@ -45,7 +45,7 @@ func MustLoad() *Config {
 	configPath := os.Getenv("CONFIG_PATH")
 	if configPath == "" {
 		// Если переменная не задана, берем локальный файл по умолчанию
-		configPath = "local.yaml"
+		configPath = "config/local.yaml"
 	}
 
 	// Проверяем, существует ли файл
