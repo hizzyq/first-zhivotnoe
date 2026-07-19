@@ -110,5 +110,6 @@ services:
       postgres:
         condition: service_started
     environment:
+      - ASPNETCORE_ENVIRONMENT=Development
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
       - DATABASE_URL=postgresql://user:supersecretpassword@postgres:5432/pet_database
