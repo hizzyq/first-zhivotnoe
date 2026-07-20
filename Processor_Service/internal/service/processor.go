@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"processor/internal/domain"
 )
@@ -76,5 +77,47 @@ func (s *ProcessorService) ProcessMedia(ctx context.Context, event domain.MediaU
 		ContentType: event.ContentType,
 	})
 
+	return nil
+}
+
+func ProcessFile(ctx context.Context, filename, dir, contentType string) error {
+	const op = "service.processor.ProcessFile"
+
+	if contentType == "pic" {
+		args := []string{
+			"-y",
+			"-i", filename,
+			"-vf", "scale=600:-2",
+			"-q:v", "80",
+			dir,
+		}
+
+		cmd := exec.CommandContext(ctx, "ffmpeg", args...)
+		if output, err := cmd.CombinedOutput(); err != nil {
+			return fmt.Errorf("%s: ffmpeg image error: %w, %s", op, err, string(output))
+		}
+		return nil
+	}
+
+	if contentType == "vid" {
+		args := []string{
+			"-y",
+			"-i", filename,
+			"-vf", "scale='min(720\\,iw)':-2",
+			"-c:v", "libx264",
+			"-crf", "26",
+			"-preset", "fast",
+			"-c:a", "aac",
+			"-b:a", "128k",
+			"-movflags", "+faststart",
+			dir,
+		}
+
+		cmd := exec.CommandContext(ctx, "ffmpeg", args...)
+		if output, err := cmd.CombinedOutput(); err != nil {
+			return fmt.Errorf("%s: ffmpeg video error: %w, log: %s", err, string(output))
+		}
+		return nil
+	}
 	return nil
 }
