@@ -27,6 +27,6 @@ type MediaProcessedEvent struct {
 	MediaID     string `json:"mediaid"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
-	MediaPath   string `json:"imagepath"`
+	MadiaPath   string `json:"imagepath"`
 	ContentType string `json:"contenttype"`
 }

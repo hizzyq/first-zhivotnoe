@@ -15,7 +15,9 @@ func (s MediaStatus) String() string {
 
 type MediaUploadedEvent struct {
 	UserID      string `json:"userid"`
+	MediaID     string `json:"mediaid"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	ImagePath   string `json:"imagepath"`
+	ContentType string `json:"contenttype"`
 }
